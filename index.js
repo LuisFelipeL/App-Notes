@@ -22,32 +22,30 @@ app.use(
   })
 );
 
-// Middleware antes de entrar a alguna ruta
-app.use((req, res, next) => {
-  console.log("Se ha realizado una nueva petición HTTP");
-  next();
-});
-
-// Rutas
+// ------------ Rutas ------------
+// Ruta para la lista de notas
 app.get("/", (req, res) => {
-  const name = req.query.name;
-  const age = req.query.age;
-
-  req.session.views = (req.session.views || 0) + 1;
-
-  //   res.send(`<h1>Hola ${name}, tienes ${age} años</h1>`);
-  const arr = ["Banano", "Fresa", "Papaya", "Naranja"];
-  res.render("index", { name, age, arr, views: req.session.views });
+  const notes = req.session.notes || [];
+  res.render("index", { notes });
 });
 
+// Ruta donde muestra el formulario para agregar nueva nota
 app.get("/notes/new", (req, res) => {
   res.render("new");
 });
 
+// Rutas para agregar nuevas notas
 app.post("/notes", (req, res) => {
-  console.log(req.body);
-  res.redirect("/notes/new");
+  req.session.notes = req.session.notes || [];
+  const id = (req.session.id || 0) + 1;
+  req.session.notes.push({
+    id: id,
+    title: req.body.title,
+    body: req.body.body,
+  });
+  res.redirect("/");
 });
+// ------------ FIN Rutas ------------
 
 // Middleware al no encontrar las rutas establecidas
 app.use((req, res, next) => {

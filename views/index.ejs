@@ -1,17 +1,10 @@
 <%- include("template/content", {title: "Index"}) %>
 
-<h2>Hola <%= name %>, tienes <%= age %> años</h2>
+<a href="/notes/new">Crear nueva nota</a>
 
-<% if (age >= 18) { %>
-<p>Eres mayor de edad.</p>
-<% } else { %>
-<p>Eres menor de edad.</p>
-<% } %>
-
-<ul>
-  <% for( let i = 0; i < arr.length; i++ ) { %>
-  <li><%= arr[i] %></li>
+<div>
+  <% for(let note of notes) { %>
+  <h3><%= note.title %></h3>
+  <p><%= note.body %></p>
   <% } %>
-</ul>
-
-<p>El numero de visitas es de <%= views %></p>
+</div>

@@ -1,37 +1,14 @@
 <%- include("template/content", {title: "Form"}) %>
+<a href="/">Cancelar</a>
+
 <form action="/notes" method="post">
   <div>
     <label for="title">Titulo:</label>
     <input type="text" id="title" name="title" />
   </div>
   <div>
-    <label for="password">Contraseña:</label>
-    <input type="password" id="password" name="password" />
-  </div>
-  <div>
     <label for="body">Descripción:</label>
-    <textarea id="body" name="description"></textarea>
-  </div>
-  <div>
-    <label for="country">Pais:</label>
-    <select id="country" name="country">
-      <option selected>Selecionar</option>
-      <option value="co">Colombia</option>
-      <option value="mx">Mexico</option>
-      <option value="jp">Japon</option>
-      <option value="au">Australia</option>
-      <option value="cl">Chile</option>
-    </select>
-  </div>
-  <div>
-    <input type="radio" id="gender-male" name="gender" value="male" checked />
-    <label for="gender-male">Hombre</label>
-    <input type="radio" id="gender-female" name="gender" value="female" />
-    <label for="gender-female">Mujer</label>
-  </div>
-  <div>
-    <input type="checkbox" id="terms" name="terms" />
-    <label for="terms">Acepto terminos y condiciones</label>
+    <textarea id="body" name="body"></textarea>
   </div>
   <button type="submit">Enviar</button>
 </form>
