@@ -1,6 +1,15 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const cookieSession = require("cookie-session");
 const app = express();
+
+const Note = require("./models/Note");
+
+//Conexión con base de datos (MongoDB)
+mongoose.connect("mongodb://localhost:27017/notes-nodejs", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 // Configuración del motor de plantillas (EJS)
 app.set("view engine", "ejs");
@@ -24,8 +33,8 @@ app.use(
 
 // ------------ Rutas ------------
 // Ruta para la lista de notas
-app.get("/", (req, res) => {
-  const notes = req.session.notes || [];
+app.get("/", async (req, res) => {
+  const notes = await Note.find();
   res.render("index", { notes });
 });
 
@@ -35,14 +44,19 @@ app.get("/notes/new", (req, res) => {
 });
 
 // Rutas para agregar nuevas notas
-app.post("/notes", (req, res) => {
-  req.session.notes = req.session.notes || [];
-  const id = (req.session.id || 0) + 1;
-  req.session.notes.push({
-    id: id,
+app.post("/notes", async (req, res, next) => {
+  const data = {
     title: req.body.title,
     body: req.body.body,
-  });
+  };
+
+  try {
+    const note = new Note(data);
+    await note.save();
+  } catch (err) {
+    return next(err);
+  }
+
   res.redirect("/");
 });
 // ------------ FIN Rutas ------------
