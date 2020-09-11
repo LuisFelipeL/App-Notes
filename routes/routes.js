@@ -1,3 +1,4 @@
+const md = require("marked");
 const express = require("express");
 const routes = express.Router();
 
@@ -20,7 +21,7 @@ routes.get("/notes/new", async (req, res) => {
 routes.get("/notes/:id", async (req, res) => {
   const notes = await Note.find();
   const note = await Note.findById(req.params.id);
-  res.render("show", { notes: notes, currentNote: note });
+  res.render("show", { notes: notes, currentNote: note, md: md });
 });
 
 // Ruta que muestra formulario para editar una nota según el id

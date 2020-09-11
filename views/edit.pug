@@ -5,7 +5,6 @@ block body
     form(action=`/notes/${currentNote._id}` method="get")
       div
         textarea(id="title" name="title" placeholder="Escribe el título..." autocomplete="off" autofocus)= currentNote.title
-        //- h4(class="note-title" id="title")= currentNote.title
       div
         textarea(id="body" name="body" rows="8" placeholder="Escribe el contenido del articulo...")= currentNote.body
       div(class="form-actions")
