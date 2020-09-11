@@ -4,15 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index",
+    "dev": "nodemon index"
   },
   "keywords": [],
   "author": "LuisFelipeL",
   "license": "ISC",
   "dependencies": {
     "cookie-session": "^1.4.0",
-    "ejs": "^3.1.5",
     "express": "^4.17.1",
-    "mongoose": "^5.10.4"
+    "mongoose": "^5.10.4",
+    "pug": "^3.0.0",
+    "serve-static": "^1.14.1"
   }
 }

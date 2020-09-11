@@ -2,8 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cookieSession = require("cookie-session");
 const app = express();
-
-const Note = require("./models/Note");
+const path = require("path");
 
 //Conexión con base de datos (MongoDB)
 mongoose.connect("mongodb://localhost:27017/notes-nodejs", {
@@ -11,12 +10,12 @@ mongoose.connect("mongodb://localhost:27017/notes-nodejs", {
   useUnifiedTopology: true,
 });
 
-// Configuración del motor de plantillas (EJS)
-app.set("view engine", "ejs");
-app.set("views", __dirname + "/views");
-
 // Configuración para la carpera de archivos estaticos
-app.use(express.static(__dirname + "/public"));
+app.use("/public", express.static(path.join(__dirname, "public")));
+
+// Configuración del motor de plantillas (Pug)
+app.set("view engine", "pug");
+app.set("views", __dirname + "/views");
 
 // Configuración para trabajar con datos enviados desde el cliente
 app.use(express.urlencoded({ extended: true }));
@@ -31,35 +30,8 @@ app.use(
   })
 );
 
-// ------------ Rutas ------------
-// Ruta para la lista de notas
-app.get("/", async (req, res) => {
-  const notes = await Note.find();
-  res.render("index", { notes });
-});
-
-// Ruta donde muestra el formulario para agregar nueva nota
-app.get("/notes/new", (req, res) => {
-  res.render("new");
-});
-
-// Rutas para agregar nuevas notas
-app.post("/notes", async (req, res, next) => {
-  const data = {
-    title: req.body.title,
-    body: req.body.body,
-  };
-
-  try {
-    const note = new Note(data);
-    await note.save();
-  } catch (err) {
-    return next(err);
-  }
-
-  res.redirect("/");
-});
-// ------------ FIN Rutas ------------
+// Configuración de rutas
+app.use("/", require("./routes/routes"));
 
 // Middleware al no encontrar las rutas establecidas
 app.use((req, res, next) => {
@@ -67,9 +39,10 @@ app.use((req, res, next) => {
 });
 
 // Middleware para el manejo de errores
-app.use((err, req, res, next) => {
-  console.log(err.stack);
-  res.status(500).send("Algo salio mal...");
-});
+// app.use((err, req, res, next) => {
+//   console.log(err.stack);
+//   res.status(500).send(`<h1>Algo salio mal...</h1><p>${err.message}</p>`);
+// });
 
+// Configuración de escucha del servidor para peticiones en un puerto
 app.listen(3000, () => console.log("Servidor Listo en http://localhost:3000"));
