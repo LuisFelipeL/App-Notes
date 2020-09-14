@@ -63,11 +63,19 @@ routes.post("/notes", requireUser, async (req, res, next) => {
   try {
     const note = new Note(data);
     await note.save();
+    res.redirect("/");
   } catch (err) {
-    return next(err);
+    if (err.name === "ValidationError") {
+      const notes = await Note.find({ user: res.locals.user });
+      res.render("./notes/new", {
+        notes,
+        errors: err.errors,
+        title: "Crear nueva nota",
+      });
+    } else {
+      return next(err);
+    }
   }
-
-  res.redirect("/");
 });
 
 // Ruta para actualizar una nota según el id

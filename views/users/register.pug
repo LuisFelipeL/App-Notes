@@ -9,10 +9,14 @@ block content
                 div(class="card-body")
                     div(class="form-group")
                         label(for="email") Correo:
-                        input(type="text" id="email" name="email")
+                        input(type="text" id="email" name="email" class=errors && errors.email ? "has-errors" : "")
+                        if errors && errors.email
+                            div(class="error-text")= errors.email.message
                     div(class="form-group")
                         label(for="password") Contraseña:
-                        input(type="password" id="password" name="password")
+                        input(type="password" id="password" name="password" class=errors && errors.password ? "has-errors" : "")
+                        if errors && errors.password
+                            div(class="error-text")= errors.password.message
 
                 div(class="card-footer")
                     div(class="card-register-link")

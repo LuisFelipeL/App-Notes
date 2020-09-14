@@ -31,7 +31,11 @@ routes.post("/register", async (req, res, next) => {
     });
     res.redirect("/user/login");
   } catch (err) {
-    return next(err);
+    if (err.name === "ValidationError") {
+      res.render("./users/register", { errors: err.errors, title: "Regitro" });
+    } else {
+      return next(err);
+    }
   }
 });
 
@@ -43,8 +47,9 @@ routes.post("/login", async (req, res, next) => {
       req.session.UserId = user._id;
       res.redirect("/");
     } else {
-      res.redirect("/user/login", {
-        error: "El correro o email estan mal, vuelve a intentarlo.",
+      res.render("./users/login", {
+        error: "El correo o email estan mal, vuelve a intentarlo.",
+        title: "Login",
       });
     }
   } catch (err) {

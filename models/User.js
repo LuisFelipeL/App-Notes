@@ -8,9 +8,22 @@ const UserSchema = mongoose.Schema({
     unique: true,
     lowercase: true,
     trim: true,
-    required: [true, "is required"],
+    required: [true, "Es requerido"],
+    match: [
+      /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/,
+      "Por favor rellenar con un correo valido",
+    ],
+    validate: {
+      validator(v) {
+        return mongoose
+          .model("User")
+          .findOne({ email: v })
+          .then((u) => !u);
+      },
+      message: "Ese correo ya esta registrado",
+    },
   },
-  password: { type: String, required: true, required: [true, "is required"] },
+  password: { type: String, required: true, required: [true, "Es requerido"] },
 });
 
 // Encriptando la contraseña del usuario haciando uso de la libreria "bcrypt"

@@ -7,6 +7,9 @@ block content
                 h1(class="title")= "Login"
             form(action="/user/login", method="post")
                 div(class="card-body")
+                    div(class="alert")
+                        if error
+                        div(class="alert-error")= error
                     div(class="form-group")
                         label(for="email") Correo:
                         input(type="text" id="email" name="email")

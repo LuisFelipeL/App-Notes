@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 // Creando el esquema y el modelo de las notas a almacenar
 const NoteSchema = mongoose.Schema({
-  title: { type: String, required: true },
+  title: { type: String, required: [true, "El titulo es requerido"] },
   body: String,
   user: {
     type: mongoose.Schema.Types.ObjectId,

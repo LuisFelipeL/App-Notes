@@ -171,7 +171,7 @@ a {
 }
 .auth-page .card-header {
   border-bottom: 1px solid #666;
-  margin-bottom: 40px;
+  /* margin-bottom: 40px; */
 }
 .auth-page .card-header .title {
   color: #47bded;
@@ -183,13 +183,13 @@ a {
 .auth-page .card-footer {
   padding: 0 20px;
 }
-.auth-page .card-body {
-  margin-bottom: 50px;
+.auth-page .card-header {
+  margin-bottom: 10px;
 }
 .auth-page .card-body .form-group {
   margin-bottom: 30px;
 }
-.auth-page .card-body .form-group input {
+.auth-page form input {
   background-color: rgba(0, 0, 0, 0);
   color: #999;
   font-size: 1rem;
@@ -201,6 +201,14 @@ a {
 }
 .auth-page .card-body .form-group input:focus {
   border-bottom: 1px solid rgb(255, 255, 255);
+}
+.auth-page form .has-errors {
+  border-color: #e03d3a;
+}
+.auth-page form .error-text {
+  color: #e03d3a;
+  font-size: 0.9rem;
+  margin-top: 5px;
 }
 .auth-page .card-footer {
   display: flex;
@@ -223,4 +231,16 @@ a {
 }
 .auth-page form .btn.btn-primary {
   background-color: #47bded;
+}
+.alert {
+  height: 50px;
+  font-size: 0.95rem;
+  line-height: 35px;
+  text-align: center;
+  padding: 0 15px 10px;
+}
+.alert-error {
+  background-color: rgb(190, 53, 53);
+  color: white;
+  border-radius: 5px;
 }
