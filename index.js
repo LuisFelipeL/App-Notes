@@ -1,3 +1,11 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
+// Variables de entorno
+const PORT = process.env.PORT;
+const MONGO_URI = process.env.MONGO_URI;
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cookieSession = require("cookie-session");
@@ -5,7 +13,7 @@ const app = express();
 const path = require("path");
 
 //Conexión con base de datos (MongoDB)
-mongoose.connect("mongodb://localhost:27017/notes-nodejs", {
+mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -61,4 +69,4 @@ app.use((req, res, next) => {
 // });
 
 // Configuración de escucha del servidor para peticiones en un puerto
-app.listen(3000, () => console.log("Servidor Listo en http://localhost:3000"));
+app.listen(PORT, () => console.log("Servidor escuchando en el puerto " + PORT));
