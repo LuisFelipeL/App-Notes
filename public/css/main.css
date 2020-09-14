@@ -53,11 +53,15 @@ a {
   max-height: 100%;
   overflow-y: scroll;
 }
+.body .body-header {
+  text-align: right;
+  padding: 15px 30px;
+}
 .body .body-actions {
   display: flex;
   flex-direction: column;
   position: fixed;
-  top: 10px;
+  top: 60px;
   right: 10px;
 }
 .body .body-actions a {
@@ -151,5 +155,72 @@ a {
   margin: 5px;
 }
 .note-form-page .form-actions .btn.btn-primary {
+  background-color: #47bded;
+}
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card {
+  width: 430px;
+  height: 350px;
+  background-color: #292929;
+  border: 1px solid #666;
+  border-radius: 5px;
+}
+.auth-page .card-header {
+  border-bottom: 1px solid #666;
+  margin-bottom: 40px;
+}
+.auth-page .card-header .title {
+  color: #47bded;
+  font-size: 1rem;
+  padding-left: 20px;
+}
+.auth-page .card-header .title,
+.auth-page .card-body,
+.auth-page .card-footer {
+  padding: 0 20px;
+}
+.auth-page .card-body {
+  margin-bottom: 50px;
+}
+.auth-page .card-body .form-group {
+  margin-bottom: 30px;
+}
+.auth-page .card-body .form-group input {
+  background-color: rgba(0, 0, 0, 0);
+  color: #999;
+  font-size: 1rem;
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid #666;
+  padding: 7px;
+  outline: none;
+}
+.auth-page .card-body .form-group input:focus {
+  border-bottom: 1px solid rgb(255, 255, 255);
+}
+.auth-page .card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: right;
+  padding: 17px 25px;
+}
+.auth-page .card-footer .small {
+  color: #999;
+  font-style: 0.9rem;
+}
+.auth-page form .btn {
+  background-color: #666;
+  color: white;
+  font-size: 0.95rem;
+  padding: 8px 16px;
+  border: none;
+  margin: 5px;
+}
+.auth-page form .btn.btn-primary {
   background-color: #47bded;
 }

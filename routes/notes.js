@@ -5,41 +5,59 @@ const routes = express.Router();
 // Modelos
 const Note = require("../models/Note");
 
+// Middleware para comprobar si hay un usuario en la sesión
+const requireUser = (req, res, next) => {
+  if (!res.locals.user) {
+    return res.redirect("/user/login");
+  }
+  next();
+};
+
 // Ruta para la lista de notas
-routes.get("/", async (req, res) => {
-  const notes = await Note.find();
-  res.render("index", { notes });
+routes.get("/", requireUser, async (req, res) => {
+  const notes = await Note.find({ user: res.locals.user });
+  res.render("./notes/index", { notes, title: "Inicio" });
 });
 
 // Ruta donde muestra el formulario para agregar nueva nota
-routes.get("/notes/new", async (req, res) => {
-  const notes = await Note.find();
-  res.render("new", { notes });
+routes.get("/notes/new", requireUser, async (req, res) => {
+  const notes = await Note.find({ user: res.locals.user });
+  res.render("./notes/new", { notes, title: "Crear nueva nota" });
 });
 
 // Ruta para mostrar una nota según el id
-routes.get("/notes/:id", async (req, res) => {
-  const notes = await Note.find();
+routes.get("/notes/:id", requireUser, async (req, res) => {
+  const notes = await Note.find({ user: res.locals.user });
   const note = await Note.findById(req.params.id);
-  res.render("show", { notes: notes, currentNote: note, md: md });
+  res.render("./notes/show", {
+    notes: notes,
+    currentNote: note,
+    md: md,
+    title: "Nota",
+  });
 });
 
 // Ruta que muestra formulario para editar una nota según el id
-routes.get("/notes/:id/edit", async (req, res, next) => {
+routes.get("/notes/:id/edit", requireUser, async (req, res, next) => {
   try {
-    const notes = await Note.find();
+    const notes = await Note.find({ user: res.locals.user });
     const note = await Note.findById(req.params.id);
-    res.render("edit", { notes: notes, currentNote: note });
+    res.render("./notes/edit", {
+      notes: notes,
+      currentNote: note,
+      title: "Editar nota",
+    });
   } catch (err) {
     return next(err);
   }
 });
 
 // Rutas para agregar nuevas notas
-routes.post("/notes", async (req, res, next) => {
+routes.post("/notes", requireUser, async (req, res, next) => {
   const data = {
     title: req.body.title,
     body: req.body.body,
+    user: res.locals.user,
   };
 
   try {
@@ -53,7 +71,7 @@ routes.post("/notes", async (req, res, next) => {
 });
 
 // Ruta para actualizar una nota según el id
-routes.patch("/notes/:id", async (req, res, next) => {
+routes.patch("/notes/:id", requireUser, async (req, res, next) => {
   const id = req.params.id;
   const note = await Note.findById(id);
 
@@ -70,7 +88,7 @@ routes.patch("/notes/:id", async (req, res, next) => {
 });
 
 // Ruta para eliminar una nota según el id
-routes.delete("/notes/:id", async (req, res, next) => {
+routes.delete("/notes/:id", requireUser, async (req, res, next) => {
   try {
     await Note.deleteOne({ _id: req.params.id });
     res.status(204).send({});

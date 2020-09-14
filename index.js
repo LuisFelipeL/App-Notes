@@ -9,6 +9,7 @@ mongoose.connect("mongodb://localhost:27017/notes-nodejs", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+mongoose.set("useCreateIndex", true);
 
 // Configuración para la carpera de archivos estaticos
 app.use("/public", express.static(path.join(__dirname, "public")));
@@ -30,8 +31,23 @@ app.use(
   })
 );
 
+// Middleware para la autenticación del usuario
+app.use(async (req, res, next) => {
+  const userId = req.session.UserId;
+  if (userId) {
+    const user = await mongoose.model("User").findById(userId);
+    if (user) {
+      res.locals.user = user;
+    } else {
+      delete req.session.userId;
+    }
+  }
+  next();
+});
+
 // Configuración de rutas
-app.use("/", require("./routes/routes"));
+app.use("/", require("./routes/notes"));
+app.use("/user", require("./routes/users"));
 
 // Middleware al no encontrar las rutas establecidas
 app.use((req, res, next) => {

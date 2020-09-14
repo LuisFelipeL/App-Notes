@@ -1,4 +1,4 @@
-extends template/content
+extends ../template/content
 
 block content
   div(class="container expand")
@@ -13,5 +13,10 @@ block content
           h3(class="note-title")= note.title
           p(class="note-body")= note.truncateBody()
     div(class="body")
+      div(class="body-header")
+        a(href="/user/logout")
+          i(class="fas fa-sign-out-alt")
+            |
+            |Logout
       block body
 
